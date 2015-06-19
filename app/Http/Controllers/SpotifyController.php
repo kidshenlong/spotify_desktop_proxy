@@ -50,7 +50,7 @@ class SpotifyController extends Controller {
         $this->oauth_token = Request::input('oauth_token');
         $this->csrf_token = Request::input('csrf_token');
 
-        $id = "spotify:track:".$id;
+        //$id = "spotify:track:".$id;
         return $response = $this->guzzle->get($this->url . "/remote/play.json", [
             //'debug' => true,
             'query' => [
@@ -78,7 +78,7 @@ class SpotifyController extends Controller {
             'query' => [
                 'ref' => '',
                 'cors' => '',
-                'pause' => 'True',
+                'pause' => 'true',
                 'oauth' => $this->oauth_token,
                 'csrf' => $this->csrf_token
             ]
@@ -96,7 +96,7 @@ class SpotifyController extends Controller {
             'query' => [
                 'ref' => '',
                 'cors' => '',
-                'pause' => 'False',
+                'pause' => False,
                 'oauth' => $this->oauth_token,
                 'csrf' => $this->csrf_token
             ]

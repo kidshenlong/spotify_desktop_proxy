@@ -15,6 +15,8 @@ $app->get('/', function () use ($app) {
     return $app->welcome();
 });
 
+$app->get('auth', 'SpotifyController@auth');
+
 $app->get('play/{id}', 'SpotifyController@play');
 //$app->get('games/{id}', 'App\Http\Controllers\GamesController@show');
 

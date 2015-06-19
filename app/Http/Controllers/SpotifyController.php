@@ -43,6 +43,26 @@ class SpotifyController extends Controller {
 
     }
 
+    public function auth(){
+
+        $oauth_token = json_decode($this->guzzle->get($this->token_url)->getBody(), true)['t'];
+
+        $csrf_token = json_decode($this->guzzle->get($this->url . "/simplecsrf/token.json", [
+            //'debug' => true,
+            'query' => [
+                'ref' => '',
+                'cors' => '',
+            ]
+        ])->getBody(), true)['token'];
+
+        return [
+            'oauth' => $oauth_token,
+            'csrf' => $csrf_token
+        ];
+
+
+    }
+
     public function play($id){
         //dd($id);
         //dd($this->csrf_token);

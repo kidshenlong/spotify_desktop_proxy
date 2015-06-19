@@ -19,27 +19,7 @@ class SpotifyController extends Controller {
 
     public function __construct(){
 
-
-        $this->oauth_token = Request::input('oauth_token');
-        $this->csrf_token = Request::input('csrf_token');
-
-        if(!Request::input('oauth_token') && !Request::input('csrf_token')) {
-
-
-            $this->guzzle = New \GuzzleHttp\Client(['headers' => ["Origin" => 'https://open.spotify.com']]);
-            $this->oauth_token = json_decode($this->guzzle->get($this->token_url)->getBody(), true)['t'];
-
-            $this->csrf_token = json_decode($this->guzzle->get($this->url . "/simplecsrf/token.json", [
-                //'debug' => true,
-                'query' => [
-                    'ref' => '',
-                    'cors' => '',
-                ]
-            ])->getBody(), true)['token'];
-
-        }
-
-
+        $this->guzzle = New \GuzzleHttp\Client(['headers' => ["Origin" => 'https://open.spotify.com']]);
 
     }
 
@@ -64,11 +44,14 @@ class SpotifyController extends Controller {
     }
 
     public function play($id){
-        //dd($id);
-        //dd($this->csrf_token);
+        if(!Request::input('oauth_token') && !Request::input('csrf_token')) {
+            return ['fail'];
+        }
+        $this->oauth_token = Request::input('oauth_token');
+        $this->csrf_token = Request::input('csrf_token');
+
         $id = "spotify:track:".$id;
-        //$id = urlencode('spotify:track:' . $id);
-        $thing = $this->guzzle->get($this->url . "/remote/play.json", [
+        return $response = $this->guzzle->get($this->url . "/remote/play.json", [
             //'debug' => true,
             'query' => [
                 'ref' => '',
@@ -80,12 +63,18 @@ class SpotifyController extends Controller {
             ]
         ])->getBody();
 
-        //dd($thing);
 
     }
 
     public function pause(){
-        $response = $this->guzzle->get($this->url ."/remote/pause.json", [
+        if(!Request::input('oauth_token') && !Request::input('csrf_token')) {
+            return ['fail'];
+        }
+        $this->oauth_token = Request::input('oauth_token');
+        $this->csrf_token = Request::input('csrf_token');
+
+
+        return $response = $this->guzzle->get($this->url ."/remote/pause.json", [
             'query' => [
                 'ref' => '',
                 'cors' => '',
@@ -96,7 +85,13 @@ class SpotifyController extends Controller {
         ])->getBody();
     }
     public function unpause(){
-        $response = $this->guzzle->get($this->url ."/remote/pause.json", [
+        if(!Request::input('oauth_token') && !Request::input('csrf_token')) {
+            return ['fail'];
+        }
+        $this->oauth_token = Request::input('oauth_token');
+        $this->csrf_token = Request::input('csrf_token');
+
+        return $response = $this->guzzle->get($this->url ."/remote/pause.json", [
             //'debug' => true,
             'query' => [
                 'ref' => '',

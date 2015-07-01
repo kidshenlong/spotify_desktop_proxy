@@ -17,8 +17,8 @@ $app->get('/', function () use ($app) {
 
 $app->get('auth', 'SpotifyController@auth');
 
+$app->get('status', 'SpotifyController@status');
+
 $app->get('play/{id}', 'SpotifyController@play');
-//$app->get('games/{id}', 'App\Http\Controllers\GamesController@show');
 
 $app->get('pause', 'SpotifyController@pause');
-$app->get('unpause', 'SpotifyController@unpause');

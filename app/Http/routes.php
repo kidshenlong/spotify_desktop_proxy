@@ -19,6 +19,6 @@ $app->get('auth', 'SpotifyController@auth');
 
 $app->get('status', 'SpotifyController@status');
 
-$app->get('play/{id}', 'SpotifyController@play');
+$app->get('play', 'SpotifyController@play');
 
 $app->get('pause', 'SpotifyController@pause');

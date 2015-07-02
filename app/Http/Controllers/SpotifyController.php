@@ -109,15 +109,17 @@ class SpotifyController extends Controller {
 
     }
 
-    public function play($id){
+    public function play(){
         if(!Request::input('oauth_token') && !Request::input('csrf_token')) {
             return ['fail'];
         }
         $this->oauth_token = Request::input('oauth_token');
         $this->csrf_token = Request::input('csrf_token');
 
-        if(!$id == "0") {
-            //$id = "spotify:track:".$id;
+        $id = Request::input('track_id');
+
+        if($id) {
+            $id = "spotify:track:".$id;
             return json_decode($response = $this->guzzle->get($this->url . "/remote/play.json", [
                 //'debug' => true,
                 'query' => [
@@ -129,6 +131,7 @@ class SpotifyController extends Controller {
                     'csrf' => $this->csrf_token
                 ]
             ])->getBody(), true);
+
         }
         return json_decode($response = $this->guzzle->get($this->url ."/remote/pause.json", [
             //'debug' => true,
